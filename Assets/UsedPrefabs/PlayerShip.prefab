@@ -14666,8 +14666,8 @@ MonoBehaviour:
   speed: 40
   tiltRoll: 1
   tiltPitch: 0.8
-  xMin: -20
-  xMax: 20
+  xMin: -35
+  xMax: 35
   zMin: -35
   zMax: 35
   yellowShotDelay: 1.2

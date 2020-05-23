@@ -142,7 +142,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 13.638825, y: 5, z: 10.850526}
+  m_Size: {x: 13.64, y: 10, z: 10.85}
   m_Center: {x: 0, y: -0.0000007748604, z: 0}
 --- !u!114 &-4189942383685768213
 MonoBehaviour:
@@ -160,8 +160,8 @@ MonoBehaviour:
   maxSpeed: 30
   minSpeedX: -10
   maxSpeedX: 10
-  greenShotDelay: 1
-  health: 7
+  greenShotDelay: 1.2
+  health: 14
   shieldHelth: 1
   yellowLaserPower: 4
   greenLaserPower: 2
