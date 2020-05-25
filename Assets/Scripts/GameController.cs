@@ -24,9 +24,9 @@ public class GameController : MonoBehaviour
     public GameObject handlers; //папка элементов управления персонажем
     public GameObject leftJoystick; //левый джойстик для перемещений
 
-
     public bool isStarted = false;
     public bool isBurgerMenuOpened = false; //нужно для правильной установки игры в паузу
+    private bool paused = true; //буль для отслеживания состояния паузы игры
     
     SaveGame saveGame = new SaveGame();
     LoadGame loadGame = new LoadGame();
@@ -114,6 +114,8 @@ public class GameController : MonoBehaviour
         startButton.onClick.AddListener(delegate { //запуск игры из главного меню
             menu.gameObject.SetActive(false);
             isStarted = true;
+            paused = false;
+            Time.timeScale = 1;
             gameMenu.gameObject.SetActive(false);
             handlers.gameObject.SetActive(true); //активируем джойстик ПЕРЕД созданием игрока (игрок создается в RestartGame())
             RestartGame();
@@ -135,12 +137,16 @@ public class GameController : MonoBehaviour
             Debug.Log("After Destroy player");
             gameMenu.gameObject.SetActive(false);
             handlers.gameObject.SetActive(false); // отключаем джойстик ПОСЛЕ игрока, иначе возникнет ошибка при поиске объекта джойстика
+            Time.timeScale = 0;
+            paused = true;
             menu.gameObject.SetActive(true);
         });
 
         burgerButton.onClick.AddListener(delegate { //выход в главное меню
             //isStarted = false;
             isBurgerMenuOpened = true; //нужно будет продумать как паузить игру
+            Time.timeScale = 0; //ставим игру на паузу
+			paused = true; //пока не знаю нужно ли отслеживать это состояние. Не проще ли считывать из Time.timeScale
             //handlers.gameObject.SetActive(false); // отключаем джойстик ПОСЛЕ игрока, иначе возникнет ошибка при поиске объекта джойстика
             burgerMenu.SetActive(true);
             creditsGrid.gameObject.SetActive(false);
@@ -151,18 +157,22 @@ public class GameController : MonoBehaviour
             gameMenu.gameObject.SetActive(false);
             handlers.gameObject.SetActive(true); //активируем Джойстик ДО создания игрока
             RestartGame();
+            //isBurgerMenuOpened = true; //нужно будет продумать как паузить игру
+            //Time.timeScale = 0; //ставим игру на паузу
             isStarted = true;
         });
 
-        exitGameButton.onClick.AddListener(delegate {
+        exitGameButton.onClick.AddListener(delegate { //выход из игры
             Debug.Log("ExitGame button clicked");
             burgerMenu.SetActive(false);
             Application.Quit();
         });
 
-        closeMenuButton.onClick.AddListener(delegate {
+        closeMenuButton.onClick.AddListener(delegate { //закрыть бургер меню
             burgerMenu.SetActive(false);
             isBurgerMenuOpened = false;
+            Time.timeScale = 1;
+            paused = false;
         });
     }
 
