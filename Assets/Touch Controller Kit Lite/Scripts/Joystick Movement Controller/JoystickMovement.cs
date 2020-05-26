@@ -18,7 +18,7 @@ public class JoystickMovement : MonoBehaviour, IPointerDownHandler, IDragHandler
     public float joystickInputY;
 
     [Tooltip("The area upto which joystick handle can be dragged. The lesser value means larger area.")]
-    [SerializeField] [Range(0.1f, 2f)] private float handleArea = 0.6f; //Area upto which joystick handle can be dragged
+    [SerializeField] [Range(0.1f, 3f)] private float handleArea = 0.6f; //Area upto which joystick handle can be dragged
 
     #endregion
 

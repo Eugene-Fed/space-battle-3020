@@ -64,7 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 10
   minSpeed: 10
-  maxSpeed: 30
+  maxSpeed: 28
   health: 2
   yellowLaserPower: 10
   greenLaserPower: 2

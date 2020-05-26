@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
         if (score > maxScore)
         {
             maxScore = score;
-            scoreRecordLable.text = "Best Score: " + maxScore;
+            scoreRecordLable.text = "Best: " + maxScore;
             saveGame.MaxScore = maxScore;
         } 
     }
@@ -117,7 +117,7 @@ public class GameController : MonoBehaviour
         
         loadGame.LoadSavedGame();
         maxScore = loadGame.MaxScore;
-        scoreRecordLable.text = "Best Score: " + maxScore; //принудительно изменяет отображаемое количество очков при старте, после загрузки
+        scoreRecordLable.text = "Best: " + maxScore; //принудительно изменяет отображаемое количество очков при старте, после загрузки
 
         Debug.Log("maxScore in GameController after load game = " + maxScore.ToString());
         
