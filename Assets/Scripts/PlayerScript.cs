@@ -64,7 +64,7 @@ public class PlayerScript : MonoBehaviour
 
         greenButton = GameObject.Find("GreenButtonIMG");
         yellowButton = GameObject.Find("YellowButtonIMG");
-        greenButton.GetComponent<WeaponButtons>().WeaponButtonDown = false;
+        //greenButton.GetComponent<WeaponButtons>().WeaponButtonDown = false;
         yellowButton.GetComponent<WeaponButtons>().WeaponButtonDown = false;
 
         // yellowButton.onClick.AddListener(delegate {

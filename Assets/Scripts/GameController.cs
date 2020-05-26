@@ -8,9 +8,9 @@ public class GameController : MonoBehaviour
     public UnityEngine.UI.Text healthLable;
     public UnityEngine.UI.Text scoreRecordLable;
     public UnityEngine.UI.Image menu;
-    public UnityEngine.UI.Button startButton;
+    //public UnityEngine.UI.Button startButton_OLD; //старая, больше не используется
     public UnityEngine.UI.Button mainMenuButton;
-    public UnityEngine.UI.Button restartButton;
+    public UnityEngine.UI.Button startGameButton;
     public UnityEngine.UI.Button closeCredits;
     public UnityEngine.UI.Button openCredits;
     public UnityEngine.UI.Button burgerButton;
@@ -23,10 +23,12 @@ public class GameController : MonoBehaviour
     public GameObject creditsGrid;
     public GameObject handlers; //папка элементов управления персонажем
     public GameObject leftJoystick; //левый джойстик для перемещений
+    public GameObject AsteroidEmitter;
 
     public bool isStarted = false;
     public bool isBurgerMenuOpened = false; //нужно для правильной установки игры в паузу
-    private bool paused = true; //буль для отслеживания состояния паузы игры
+
+    private bool isPaused = false; //буль для отслеживания состояния паузы игры
     
     SaveGame saveGame = new SaveGame();
     LoadGame loadGame = new LoadGame();
@@ -57,8 +59,19 @@ public class GameController : MonoBehaviour
 
     public void ActiveMenuButton()
     {
-        handlers.gameObject.SetActive(false);
-        gameMenu.gameObject.SetActive(true);
+        //handlers.gameObject.SetActive(false);
+        //gameMenu.gameObject.SetActive(true);
+        isStarted = false; //Игра становится не активной (но не в паузе)
+        AsteroidEmitter.SetActive(false);
+        closeMenuButton.gameObject.SetActive(false);
+        startGameButton.gameObject.SetActive(true);
+        burgerMenu.SetActive(true); //т.е. isStarted = false, в меню будет кнопка Старта игры, а не закрыти меню.
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); // поиск массива объектов
+        foreach (GameObject item in enemies)
+        {
+            Destroy(item);
+        }
     }
 
     void RestartGame() //очищает сцену перед запуском новой игры
@@ -99,27 +112,35 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isStarted = false;
+        isPaused = false;
+        
         loadGame.LoadSavedGame();
         maxScore = loadGame.MaxScore;
         scoreRecordLable.text = "Best Score: " + maxScore; //принудительно изменяет отображаемое количество очков при старте, после загрузки
 
         Debug.Log("maxScore in GameController after load game = " + maxScore.ToString());
         
-        menu.gameObject.SetActive(true); //при запуске активируем главное меню
-        burgerMenu.SetActive(false); //и деактивируем меню Бургера
+        //menu.gameObject.SetActive(true); //при запуске активируем главное меню
+        burgerMenu.SetActive(true); //активируем меню Бургера ака Главное меню
         creditsGrid.gameObject.SetActive(false);
-        handlers.gameObject.SetActive(false);
+        handlers.gameObject.SetActive(true); //в новом исполнении без главного меню оставляем элементы управления активными всегда
+        AsteroidEmitter.SetActive(false);
         instance = this;
 
-        startButton.onClick.AddListener(delegate { //запуск игры из главного меню
+        /*
+        startButton_OLD.onClick.AddListener(delegate { //запуск игры из главного меню
             menu.gameObject.SetActive(false);
             isStarted = true;
-            paused = false;
+            isPaused = false;
             Time.timeScale = 1;
             gameMenu.gameObject.SetActive(false);
+            AsteroidEmitter.SetActive(true);
             handlers.gameObject.SetActive(true); //активируем джойстик ПЕРЕД созданием игрока (игрок создается в RestartGame())
             RestartGame();
         });
+        */
+
 
         openCredits.onClick.AddListener(delegate { //открыть Кредитс
             creditsGrid.gameObject.SetActive(true);
@@ -129,7 +150,8 @@ public class GameController : MonoBehaviour
             creditsGrid.gameObject.SetActive(false);
         });
 
-        mainMenuButton.onClick.AddListener(delegate { //выход в главное меню
+        /*
+        mainMenuButton.onClick.AddListener(delegate { //выход в главное меню. Больше не используется
             isStarted = false;
             RestartGame(); // делаем рестарт, чтобы уничтожить всех оставшихся врагов и астероидов
             Debug.Log("Before Destroy player");
@@ -138,28 +160,43 @@ public class GameController : MonoBehaviour
             gameMenu.gameObject.SetActive(false);
             handlers.gameObject.SetActive(false); // отключаем джойстик ПОСЛЕ игрока, иначе возникнет ошибка при поиске объекта джойстика
             Time.timeScale = 0;
-            paused = true;
+            isPaused = true;
+            AsteroidEmitter.SetActive(false);
             menu.gameObject.SetActive(true);
         });
+        */
 
         burgerButton.onClick.AddListener(delegate { //выход в главное меню
             //isStarted = false;
-            isBurgerMenuOpened = true; //нужно будет продумать как паузить игру
+            //isBurgerMenuOpened = true; //нужно будет продумать как паузить игру
             Time.timeScale = 0; //ставим игру на паузу
-			paused = true; //пока не знаю нужно ли отслеживать это состояние. Не проще ли считывать из Time.timeScale
+			isPaused = true; //пока не знаю нужно ли отслеживать это состояние. Не проще ли считывать из Time.timeScale
             //handlers.gameObject.SetActive(false); // отключаем джойстик ПОСЛЕ игрока, иначе возникнет ошибка при поиске объекта джойстика
             burgerMenu.SetActive(true);
+            closeMenuButton.gameObject.SetActive(isStarted);
+            startGameButton.gameObject.SetActive(!closeMenuButton.gameObject.activeSelf);
             creditsGrid.gameObject.SetActive(false);
         });
 
-        restartButton.onClick.AddListener(delegate { //перезапуск игры
+        startGameButton.onClick.AddListener(delegate { //перезапуск игры
+            /*
             menu.gameObject.SetActive(false);
             gameMenu.gameObject.SetActive(false);
             handlers.gameObject.SetActive(true); //активируем Джойстик ДО создания игрока
             RestartGame();
-            //isBurgerMenuOpened = true; //нужно будет продумать как паузить игру
-            //Time.timeScale = 0; //ставим игру на паузу
             isStarted = true;
+            */
+
+            //menu.gameObject.SetActive(false);
+            burgerMenu.SetActive(false); //закрываем меню
+            Time.timeScale = 1;
+            //gameMenu.gameObject.SetActive(false);
+            AsteroidEmitter.SetActive(true);
+            //handlers.gameObject.SetActive(true); //активируем джойстик ПЕРЕД созданием игрока (игрок создается в RestartGame())
+            RestartGame();
+            isStarted = true;
+            isPaused = false;
+
         });
 
         exitGameButton.onClick.AddListener(delegate { //выход из игры
@@ -172,7 +209,7 @@ public class GameController : MonoBehaviour
             burgerMenu.SetActive(false);
             isBurgerMenuOpened = false;
             Time.timeScale = 1;
-            paused = false;
+            isPaused = false;
         });
     }
 

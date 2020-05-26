@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+// скрипт не используется, т.к. добавил функционал в GameController
 public class PauseGame : MonoBehaviour {
 	private bool paused = false;
 	public GameObject panel;
