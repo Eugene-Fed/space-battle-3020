@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
     public GameObject gameMenu;
     public GameObject burgerMenu;
     public GameObject creditsGrid;
-    public GameObject handlers; //папка элементов управления персонажем
+    //public GameObject handlers; //папка элементов управления персонажем
     public GameObject leftJoystick; //левый джойстик для перемещений
     public GameObject AsteroidEmitter;
 
@@ -124,7 +124,7 @@ public class GameController : MonoBehaviour
         //menu.gameObject.SetActive(true); //при запуске активируем главное меню
         burgerMenu.SetActive(true); //активируем меню Бургера ака Главное меню
         creditsGrid.gameObject.SetActive(false);
-        handlers.gameObject.SetActive(true); //в новом исполнении без главного меню оставляем элементы управления активными всегда
+        //handlers.gameObject.SetActive(true); //в новом исполнении без главного меню оставляем элементы управления активными всегда
         AsteroidEmitter.SetActive(false);
         instance = this;
 
