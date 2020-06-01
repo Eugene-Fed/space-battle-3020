@@ -14670,8 +14670,8 @@ MonoBehaviour:
   xMax: 35
   zMin: -35
   zMax: 35
-  yellowShotDelay: 1.2
-  greenShotDelay: 0.2
+  yellowShotDelay: 1
+  greenShotDelay: 0.25
   gunAngle: 5
   health: 10
   shieldHelth: 3
