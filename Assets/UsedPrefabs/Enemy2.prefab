@@ -282,7 +282,7 @@ MonoBehaviour:
   maxSpeed: 30
   minSpeedX: -10
   maxSpeedX: 10
-  greenShotDelay: 0.8
+  greenShotDelay: 1
   health: 10
   shieldHelth: 2
   yellowLaserPower: 4

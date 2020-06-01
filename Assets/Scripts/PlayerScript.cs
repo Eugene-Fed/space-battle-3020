@@ -57,8 +57,12 @@ public class PlayerScript : MonoBehaviour
         leftGunAngle = playerShip.transform.rotation.y - gunAngle; // Задаем угол установки боковых пушек при старте, что бы снизить нагрузку на Update()
         rightGunAngle = playerShip.transform.rotation.y + gunAngle; // Если бы наш Звездолет вращался вокруг оси Y и стрелял по сторонам, выставляли бы по факту из Update()
         GameController.instance.ChangeHealth(health);
-        leftJoystick = GameObject.Find("LeftJoystick"); //обязательно жуно убедиться, что джойстик активируется ДО модели игрока, иначе по имени найден не будет
-        
+        //leftJoystick = GameObject.Find("LeftJoystickM01"); //обязательно нужно убедиться, что джойстик активируется ДО модели игрока, иначе по имени найден не будет
+        //!!!!!! заменить поиск джойстика по имени на поиск по ТЕГУ!!! Т.к. джойстиков будет много разных из префабов !!!!!
+        GameObject[] leftJoysticks = GameObject.FindGameObjectsWithTag("LeftJoystick");
+        leftJoystick = leftJoysticks[0];
+
+
         //greenButton = GameObject.Find("GreenButtonBTN").GetComponent<Button>();
         //yellowButton = GameObject.Find("YellowButtonBTN").GetComponent<Button>();
 
